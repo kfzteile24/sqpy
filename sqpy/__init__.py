@@ -1,0 +1,1 @@
+"""sqpy commandline app"""

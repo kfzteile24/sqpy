@@ -1,0 +1,6 @@
+/.vscode
+/.venv
+/*.egg-info
+/build
+/dist
+/tags
