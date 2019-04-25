@@ -117,6 +117,8 @@ def main():
     query = query.strip()
     if query[-3:].lower()=='\\go':
         query = query[:-3].strip()
+    # Clean up sqsh escape sequences from query
+    query = query.replace('\\\\$', '$')
 
     dsn = [f'DRIVER={{{detect_mssql_odbc()}}}']
     if args.ftds_server:

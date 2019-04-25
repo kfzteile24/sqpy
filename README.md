@@ -127,4 +127,10 @@ sqpy --help
 
 ---
 
-Note that this library will remove the extra `\go` from the end of the query
+Note that this library will remove the extra `\go` from the end of the query, and also clears the escape sequences for the `$` symbol that was necessary for sqsh. It doesn't support sqsh parameters.
+
+If you're having trouble with encoding of queries or of the formation of the output, set the `PYTHONIOENCODING` environment variable when calling this script. Example:
+
+```sh
+cat query.sql | PYTHONIOENCODING=UTF-8 sqpy [...] -m csv
+```
