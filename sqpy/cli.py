@@ -1,6 +1,7 @@
 import argparse
 import csv
 import configparser
+import platform
 import pyodbc
 import select
 import sys
@@ -78,8 +79,15 @@ def setup_args():
 
 def detect_mssql_odbc():
     config = configparser.ConfigParser()
-    # TODO: Ensure this also works on other distros and maybe even Mac OS
-    config.read('/etc/odbcinst.ini')
+    odbcinst_path = ''
+    if platform.system() == 'Darwin':
+        odbcinst_path = '/usr/local/etc/odbcinst.ini'
+    elif platform.system() == 'Linux':
+        odbcinst_path = '/etc/odbcinst.ini'
+    else:
+        raise Exception(f"Unsupported system: {platform.system()}")
+
+    config.read(odbcinst_path)
     for section in config.sections():
         if 'msodbcsql' in config[section].get('Driver'):
             return section
@@ -89,7 +97,15 @@ def detect_mssql_odbc():
 
 def translate_ftds_alias(alias: str):
     config = configparser.ConfigParser()
-    config.read('/etc/freetds/freetds.conf')
+    freetds_path = ''
+    if platform.system() == 'Darwin':
+        freetds_path = '/usr/local/etc/freetds.conf'
+    elif platform.system() == 'Linux':
+        freetds_path = '/etc/freetds/freetds.conf'
+    else:
+        raise Exception(f"Unsupported system: {platform.system()}")
+
+    config.read(freetds_path)
     if alias in config:
         dsn = []
         if 'port' in config[alias]:
@@ -99,7 +115,7 @@ def translate_ftds_alias(alias: str):
         if 'client charset' in config[alias]:
             dsn.append(f"CHARSET={config[alias]['client charset']}")
         return dsn
-    raise Exception(f"Unknown alias '{alias}' in /etc/freetds/freetds.conf")
+    raise Exception(f"Unknown alias '{alias}' in {freetds_path}")
 
 
 def main():

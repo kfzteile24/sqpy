@@ -6,7 +6,7 @@ def get_long_description():
 
 setup(
     name='sqpy',
-    version='0.1.3',
+    version='0.1.4',
 
     description="Limited sqsh-compatible CLI app using ODBC protocol to fetch CSV data.",
     long_description=get_long_description(),
