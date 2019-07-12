@@ -66,6 +66,27 @@ def setup_args():
     )
 
     parser.add_argument(
+        '-a',
+        dest='count',
+        help="Max. # of errors before abort ",
+        type=int
+    )
+
+    parser.add_argument(
+        '-d',
+        dest='severity_display',
+        help="Min. severity level to display",
+        type=int
+    )
+
+    parser.add_argument(
+        '-f',
+        dest='severity_failure',
+        help="Min. severity level for failure",
+        type=int
+    )
+
+    parser.add_argument(
         '-m',
         dest='display_mode',
         help="Set display mode",
