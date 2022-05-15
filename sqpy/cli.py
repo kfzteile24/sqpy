@@ -50,6 +50,13 @@ def setup_args():
     )
 
     parser.add_argument(
+        '-T',
+        dest='trust_server_certificate',
+        help="Trust the server certificate",       
+        action='store_true'
+    )
+
+    parser.add_argument(
         '-C',
         dest='sql',
         help="SQL command to execute (can also be passed in via STDIN)",
@@ -173,6 +180,9 @@ def main():
 
     if args.password:
         dsn += [f'PWD={args.password}']
+
+    if args.trust_server_certificate:
+        dsn += [f'TrustServerCertificate=YES']
 
     conn = pyodbc.connect(';'.join(dsn))
     cur = conn.cursor()
